@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/sebi/static/css/main.8ab44ed0.css",
+    "main.js": "/sebi/static/js/main.31b758c8.js",
+    "static/js/787.7066aac0.chunk.js": "/sebi/static/js/787.7066aac0.chunk.js",
+    "static/media/poster.png": "/sebi/static/media/poster.4e6f452ad95a300da4d5.png",
+    "static/media/ai_peach3.png": "/sebi/static/media/ai_peach3.eaad49287b28adda8f22.png",
+    "static/media/ai_sebiHarryPotter.png": "/sebi/static/media/ai_sebiHarryPotter.c751ed08c5dd6d3884e7.png",
+    "static/media/ai_peach.png": "/sebi/static/media/ai_peach.573994ecac8f9255e2e7.png",
+    "static/media/slide3.jpg": "/sebi/static/media/slide3.05172de1d972a26a2419.jpg",
+    "static/media/Jomhuria-Regular.ttf": "/sebi/static/media/Jomhuria-Regular.f9e0cbcb3612fb54fdae.ttf",
+    "static/media/slide2.jpg": "/sebi/static/media/slide2.a39309216b310e1be0c0.jpg",
+    "static/media/slide4.jpg": "/sebi/static/media/slide4.66d85cd5360e45cd1d2a.jpg",
+    "static/media/slide1.jpg": "/sebi/static/media/slide1.f7c40cfd8fd1dedb0380.jpg",
+    "static/media/bg.jpg": "/sebi/static/media/bg.9f1da827e42f4c0025a8.jpg",
+    "static/media/393244153___n.png": "/sebi/static/media/393244153_7038083572891111_6623681057502858543_n.800e02c1de67ca9f5159.png",
+    "static/media/393414773___n.png": "/sebi/static/media/393414773_24228129736800860_6985542741311839774_n.e4b0e4a455e8abd6867d.png",
+    "static/media/393465936_704302024981456__n.png": "/sebi/static/media/393465936_704302024981456_1438573240874253931_n.27f476c25e9cf1d59ced.png",
+    "static/media/387326296___n.png": "/sebi/static/media/387326296_1060920191701473_4115733326219678321_n.c9aa7df96535561d7219.png",
+    "static/media/370235597_265339986500764__n.png": "/sebi/static/media/370235597_265339986500764_7087376773896982341_n.9d0a9e5eebaedf5925db.png",
+    "index.html": "/sebi/index.html",
+    "main.8ab44ed0.css.map": "/sebi/static/css/main.8ab44ed0.css.map",
+    "main.31b758c8.js.map": "/sebi/static/js/main.31b758c8.js.map",
+    "787.7066aac0.chunk.js.map": "/sebi/static/js/787.7066aac0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8ab44ed0.css",
+    "static/js/main.31b758c8.js"
+  ]
+}

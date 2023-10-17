@@ -1,38 +1,130 @@
-.App {
-  text-align: center;
+:root {
+    --stripe-size: 100px;
+    --color1: #c44;
+    --color2: #313131;
+    --duration: 2s;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+    min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.textShadow {
+    text-shadow: 3px 2px black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.font-jomhuria {
+    font-family: 'Jomhuria'
 }
 
-.App-link {
-  color: #61dafb;
+.textShadow-white {
+    text-shadow: 3px 2px white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sebibox-banner {
+    background-color: rgba(171, 7, 7, 0.83);
+}
+
+.sebibox-banner h2 {
+    text-shadow: 4px -5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sebibox-banner h4 {
+    color: #FFF16F;
+    text-shadow: 4px -5px 0px rgba(102, 44, 224, 0.75);
+    font-size: 96px;
+}
+
+.sebibox-banner h3 {
+    color: rgba(251, 240, 121, 0.98);
+    text-shadow: 10px -6px 0px #F04A92;
+    font-size: 512px;
+}
+
+.sebibox-banner a {
+    color: #FFF;
+    text-shadow: 4px -5px 0px rgba(0, 0, 0, 0.75);
+    font-size: 300px;
+    transition: all .2s ease;
+}
+
+.sebibox-banner a:hover,
+.sebibox-banner a:active {
+    color: rgba(102, 44, 224, 0.75);
+    text-shadow: 4px -5px 0px rgba(251, 240, 121, 0.98);
+    ;
+}
+
+.sebibox-banner .gameDev {
+    color: #FFF;
+    text-shadow: 4px -5px 0px rgba(0, 0, 0, 0.75);
+    font-size: 64px;
+    line-height: 1;
+}
+
+.stripe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.stripe_inner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 8rem;
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+    color: rgba(#fff, 0);
+    background: repeating-linear-gradient( 45deg, var(--color1) 25%, var(--color1) 50%, var(--color2) 50%, var(--color2) 75%);
+    background-size: var(--stripe-size) var(--stripe-size);
+    background-clip: text;
+    animation: stripeBackgroundPosition var(--duration) linear infinite;
+}
+
+.stripe_inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% + var(--stripe-size));
+    height: 100%;
+    background: repeating-linear-gradient( 45deg, var(--color2) 25%, var(--color2) 50%, var(--color1) 50%, var(--color1) 75%);
+    background-size: var(--stripe-size) var(--stripe-size);
+    animation: stripeTransform var(--duration) linear infinite;
+}
+
+.stripe_inner::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(#1b2735, 0) 0%, #090a0f 100%);
+}
+
+@keyframes stripeTransform {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(var(--stripe-size) * -1));
+    }
+}
+
+@keyframes stripeBackgroundPosition {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: calc(var(--stripe-size) * -1) 0;
+    }
 }

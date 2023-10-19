@@ -24,7 +24,7 @@ interface Round {
 const DEFAULT_TIME = 8000 
 
 export const Round = ({playerId, name, avatar, roundOver, gameOver}: Round) => {
-    const [qid, setQid] = useStateCallback(5)
+    const [qid, setQid] = useStateCallback(-1)
     const [rid, setRid] = useState(0)
     const [question, setQuestion] = useState<Question|null>(null)
     const [result, setResult] = useState<string|null>(null)

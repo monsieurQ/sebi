@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../App.css';
 import { Lobby } from '../components/sebibox/Lobby';
 import useStateCallback from '../util/useStateCallback';
@@ -9,6 +9,9 @@ import { server_checkIfPlayerIdExists, server_reset } from '../util/serverComm';
 import { RoundPoints } from '../components/sebibox/RoundPoints';
 import { Round } from '../components/sebibox/Round';
 import { useNavigate } from "react-router-dom";
+import darkness from '../assets/darkness1.mp3'
+import {ReactComponent as TurnVolumeOff} from '../assets/volume-off.svg'
+import {ReactComponent as TurnVolumeOn} from '../assets/volume-high.svg'
 
 export const LOCAL_STORAGE_KEY = 'PLAYER_ID'
 
@@ -44,6 +47,8 @@ function Sebibox() {
   const [playerAvatar, setPlayerAvatar] = useState<number|null>(null)
   const [currentState, setCurrentState] = useState<GAME_STATE>(GAME_STATE.LOBBY)
   const [players, setPlayers] = useStateCallback<PLAYER[]>([])
+
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   const navigate = useNavigate();
 
@@ -121,14 +126,17 @@ function Sebibox() {
   const display = componentToDisplay()
 
   return (
-    <div className="App grid grid-cols-1 grid-rows-[max-content,auto] h-screen">
+    <div className="App grid grid-cols-1 grid-rows-[max-content,auto] h-screen relative">
       <button onClick={() => server_reset().then(res => navigate("/sebibox/login"))} className="fixed right-0 p-4 bg-white top-0">Reset</button>
-      {/* <audio src={darkness} autoPlay loop className="invisible" /> */}
+      <audio ref={audioRef} src={darkness} autoPlay loop />
       {/* <div>PlayerID:{playerID}</div> */}
       <header className="bg-red-800 text-white text-2xl p-4 text-center">SEBIBOX</header>
       <div className="bg-red-700 p-10 flex flex-col items-center">
         {display}        
       </div>
+      <button className="fixed bottom-4 right-4" onClick={() => audioRef.current?.paused ? audioRef.current?.play() : audioRef.current?.pause()}>
+        {audioRef.current?.paused ? <TurnVolumeOff className='w-6' /> : <TurnVolumeOn className='w-6' /> }
+      </button>
     </div>
   );
 }

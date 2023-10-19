@@ -27,6 +27,7 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
     
 
     useEffect(() => {
+        if(audioRef.current) audioRef.current.volume = .1;
         s_lobby();
         intervalRef.current = setInterval(() => {
             server_lobby_check().then(res => {
@@ -60,7 +61,7 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
     SOUNDS
     */
     const [s_roundStart, data] = useSound(roundStart);
-    const [s_lobby, s_lobbyData] = useSound(sound_lobby);
+    const [s_lobby, s_lobbyData] = useSound(sound_lobby, {volume:.5});
     const [s_intro, s_introData] = useSound(intro);
 
     return(

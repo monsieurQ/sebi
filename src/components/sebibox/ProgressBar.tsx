@@ -15,6 +15,7 @@ export const ProgressBar = ({time, timeDepleted}: Props) => {
     const [remainingTime, setRemainingTime] = useState(time)
     const [soundPlaying, setSoundPlaying] = useState(false)
     const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const lowTimeRef = useRef<HTMLAudioElement>(null)
 
     const [timeLow, timeLowData] = useSound(s_timeLow)
     const [timeOut, timeOutData] = useSound(s_timeOut)
@@ -32,11 +33,13 @@ export const ProgressBar = ({time, timeDepleted}: Props) => {
 
     useEffect(() => {
         if(remainingTime<time/3 && !soundPlaying){
-            timeLow()
+            // timeLow()
+            lowTimeRef.current?.play() 
             setSoundPlaying(false)
         }
         if(remainingTime<=0){ 
             timeLowData.stop()
+            lowTimeRef.current?.pause() 
             timeOut()
             if(intervalRef.current) clearInterval(intervalRef.current) 
             timeDepleted()
@@ -45,6 +48,7 @@ export const ProgressBar = ({time, timeDepleted}: Props) => {
 
     return (
         <div className="h-10 bg-rose-100 w-full overflow-hidden rounded-2xl">
+            <audio src={s_timeLow} ref={lowTimeRef} />
             <div className="h-full bg-red-400" style={{width:remainingTime/time*100+"%"}}></div>
         </div>
     )

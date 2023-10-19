@@ -19,9 +19,12 @@ interface props {
 export const VictoryScreen = ({id}:props) => {
     const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const audioRef = useRef<HTMLAudioElement|null>(null)
+    const drumrollRef = useRef<HTMLAudioElement|null>(null)
+    const applauseRef = useRef<HTMLAudioElement|null>(null)
     const [players, setPlayers] = useStateCallback<PLAYER[]>([])
     const [allDone, setAllDone] = useStateCallback<boolean|PLAYER[]>(false)
     const [isBooped, setIsBooped] = useState(false)
+    const [winnerShown, setWinnerShown] = useState(false)
 
     const [applause] = useSound(s_applause)
     const [drumroll] = useSound(s_drumroll)
@@ -59,11 +62,14 @@ export const VictoryScreen = ({id}:props) => {
                     const maxPoints = (res.players as PLAYER[]).reduce((prev, current) => (prev.points > current.points) ? prev : current).points
                     const winners = (res.players as PLAYER[]).filter(player => player.points==maxPoints)
                     setTimeout(() => {
-                        drumroll()
+                        // drumroll()
+                        drumrollRef.current?.play()
                         setAllDone(winners)
                         setIsBooped(true)
                         setTimeout(() => {
-                            applause()
+                            // applause()
+                            applauseRef.current?.play()
+                            setWinnerShown(true)
                         }, 2000)
                         setTimeout(() => {
                             setAllDone(false)
@@ -84,16 +90,18 @@ export const VictoryScreen = ({id}:props) => {
 
     return(
         <div>
-            <Title title="SPIEL IST JETZT GLEICH FERTIG BITTE" />
+            <Title title={winnerShown ? "SPIEL IST JETZT FERTIG BITTE" : "SPIEL IST JETZT GLEICH FERTIG BITTE"} />
 
             {id===0 && <audio src={process.env.PUBLIC_URL+"/narrator/victory.mp3"} loop={false} ref={audioRef} className="" />}
+            <audio src={s_drumroll} ref={drumrollRef} />  
+            <audio src={s_applause} ref={applauseRef} />  
             
             {!allDone && (<><div className="grid grid-cols-8 mt-8 gap-4">
                 {players?.map((player, i) => 
                     <div key={i} 
                         // className={clsx(player.id===id && "border-white border-4")}
                     >
-                        <PlayerAvatar avatar={player.avatar} name={player.name} pointsDisplay={allDone ? player.points+"" : ""} />
+                        <PlayerAvatar avatar={player.avatar} name={player.name} pointsDisplay={winnerShown ? player.points+"" : ""} />
                     </div>
                 )}
             </div>

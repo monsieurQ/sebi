@@ -88,7 +88,7 @@ export const Login = () => {
                     <input type="text" ref={nameRef} name="name" id="name" className="text-[30px] text-black p-4 w-full" />
                 
                     <div className="text-[60px] textShadow text-white mt-8">Avatar</div>
-                    <div className="grid grid-cols-8 gap-4">
+                    <div className="grid grid-cols-4 gap-6 gap-y-10">
                             {avatars.map((a, i) => 
                                 <div key={i}>
                                     <input type="radio" name="avatar" onChange={()=> setAvatar(i)} id={i+""} hidden value={i} />

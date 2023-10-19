@@ -31,8 +31,9 @@ export const RoundIntro = (props:props) => {
 
     useEffect(() => {
         if(roundIndex!==-1 && props.playerId==0){
+            console.log("setting thing")
             audioRef.current?.play()
-            audioRef.current?.addEventListener('ended', () => {
+            if(audioRef.current) audioRef.current.addEventListener('ended', () => {
                 console.log("Audio ended")
                 skipIntro()
             })
@@ -84,7 +85,7 @@ export const RoundIntro = (props:props) => {
             </div>
             {(props.playerId===0 && audioSRC!=="") && <audio src={audioSRC} ref={audioRef} autoPlay />}
             {props.playerId===0 && <div className="text-end mt-16">
-                <button onClick={skipIntro} className="text-end text-[60px] textShadow text-white">Halt die Klappe!</button>
+                <button onClick={skipIntro} className="text-end text-[60px] textShadow text-white underline">Runde starten</button>
             </div>}
         </div>
     )

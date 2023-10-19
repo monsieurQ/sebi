@@ -31,7 +31,7 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
         s_lobby();
         intervalRef.current = setInterval(() => {
             server_lobby_check().then(res => {
-                console.log("lobbyCheck res", res)
+                // console.log("lobbyCheck res", res)
                 if(res.gameState!==GAME_STATE.LOBBY) startRoundIntro()
                if(res.players) setPlayers(res.players)
             })

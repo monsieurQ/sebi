@@ -48,6 +48,7 @@ function Sebibox() {
   const [currentState, setCurrentState] = useState<GAME_STATE>(GAME_STATE.LOBBY)
   const [players, setPlayers] = useStateCallback<PLAYER[]>([])
 
+
   const audioRef = useRef<HTMLAudioElement>(null)
 
   const navigate = useNavigate();
@@ -79,6 +80,11 @@ function Sebibox() {
     }
   }, [playerID])
 
+  useEffect(() => {
+    if(currentState==GAME_STATE.VICTORY){
+      audioRef.current?.pause()
+    }
+  }, [currentState])
 
   // const login = async (name:string, avatar:number) => {
   //   const id = await fetch(`${SERVER_URL}/class-login?name=${name}&avatar=${avatar}`)

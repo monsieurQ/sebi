@@ -70,11 +70,11 @@ export const VictoryScreen = ({id}:props) => {
                             // applause()
                             applauseRef.current?.play()
                             setWinnerShown(true)
-                        }, 2000)
+                        }, 1600)
                         setTimeout(() => {
                             setAllDone(false)
                         }, 6000)
-                    }, 38000)
+                    }, 37000)
                     
                     
                     

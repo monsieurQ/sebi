@@ -134,15 +134,15 @@ function Sebibox() {
   return (
     <div className="App grid grid-cols-1 grid-rows-[max-content,auto] h-screen relative">
       <button onClick={() => server_reset().then(res => navigate("/sebibox/login"))} className="fixed right-0 p-4 bg-white top-0">Reset</button>
-      <audio ref={audioRef} src={darkness} autoPlay loop />
+      {playerID == 0 && <audio ref={audioRef} src={darkness} autoPlay loop />}
       {/* <div>PlayerID:{playerID}</div> */}
       <header className="bg-red-800 text-white text-2xl p-4 text-center">SEBIBOX</header>
       <div className="bg-red-700 p-10 flex flex-col items-center">
         {display}        
       </div>
-      <button className="fixed bottom-4 right-4" onClick={() => audioRef.current?.paused ? audioRef.current?.play() : audioRef.current?.pause()}>
+      { playerID==0 && currentState!==GAME_STATE.VICTORY && <button className="fixed bottom-4 right-4" onClick={() => audioRef.current?.paused ? audioRef.current?.play() : audioRef.current?.pause()}>
         {audioRef.current?.paused ? <TurnVolumeOff className='w-6' /> : <TurnVolumeOn className='w-6' /> }
-      </button>
+      </button>}
     </div>
   );
 }

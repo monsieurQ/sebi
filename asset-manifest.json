@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.8ca925fe.css",
-    "main.js": "./static/js/main.681e9286.js",
+    "main.js": "./static/js/main.ba71074c.js",
     "static/js/845.47a1abf8.chunk.js": "./static/js/845.47a1abf8.chunk.js",
     "static/js/787.7066aac0.chunk.js": "./static/js/787.7066aac0.chunk.js",
     "static/media/tshirt2.png": "./static/media/tshirt2.864943ff756e995657ea.png",
@@ -10,7 +10,7 @@
     "static/media/parfum.png": "./static/media/parfum.c9fcffbbdb19a1ae9324.png",
     "static/media/crop.png": "./static/media/crop.a2085505e793539a2c15.png",
     "static/media/poster.png": "./static/media/poster.4e6f452ad95a300da4d5.png",
-    "static/media/darkness1.mp3": "./static/media/darkness1.b50575e1cffc5fcad5e9.mp3",
+    "static/media/darkness2.mp3": "./static/media/darkness2.f7e38b0a765e8d9cad6d.mp3",
     "static/media/intro.mp3": "./static/media/intro.8bd484cb936437961647.mp3",
     "static/media/ai_peach3.png": "./static/media/ai_peach3.eaad49287b28adda8f22.png",
     "static/media/lobby.mp3": "./static/media/lobby.11abd208befa13d2ba64.mp3",
@@ -53,12 +53,12 @@
     "index.html": "./index.html",
     "static/media/volume-off.svg": "./static/media/volume-off.d686d3129b7341fcd639678795a856e5.svg",
     "main.8ca925fe.css.map": "./static/css/main.8ca925fe.css.map",
-    "main.681e9286.js.map": "./static/js/main.681e9286.js.map",
+    "main.ba71074c.js.map": "./static/js/main.ba71074c.js.map",
     "845.47a1abf8.chunk.js.map": "./static/js/845.47a1abf8.chunk.js.map",
     "787.7066aac0.chunk.js.map": "./static/js/787.7066aac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8ca925fe.css",
-    "static/js/main.681e9286.js"
+    "static/js/main.ba71074c.js"
   ]
 }

@@ -67,7 +67,7 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
     return(
         <div className="w-full">
             {id===0 && <audio src={intro} loop={false} ref={narratorRef} className="" />}
-            <Title title="PLAYERS" />
+            <Title title="SEBI-FANS" />
             <div className="grid grid-cols-8 mt-8 gap-4">
                 {players?.map((player, i) => 
                     <div key={i}>
@@ -80,7 +80,7 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
 
             {id==0 && 
                 <div className="text-end mt-16">
-                    <button ref={buttonRef} onClick={()=> {s_roundStart(); startGame()}} className="text-end text-[60px] textShadow text-white">Start Game!</button>
+                    <button ref={buttonRef} onClick={()=> {s_roundStart(); startGame()}} className="text-end text-[60px] textShadow underline text-white">Spiel starten!</button>
                 </div>
             }
         </div>

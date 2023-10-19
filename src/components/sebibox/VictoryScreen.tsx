@@ -1,47 +1,119 @@
 import { useEffect, useRef, useState } from "react"
-import { PLAYER } from "../../pages/sebibox"
+import { GAME_STATE, PLAYER } from "../../pages/sebibox"
 import { Title } from "./Title"
 import clsx from "clsx"
 import { PlayerAvatar } from "./PlayerAvatar"
-import { server_nextRound, server_roundsCheck } from "../../util/serverComm"
+import { server_getResults, server_nextRound, server_reset, server_state_check } from "../../util/serverComm"
+import useStateCallback from "../../util/useStateCallback"
+import s_applause from '../../assets/sounds/applause.mp3'
+import s_drumroll from '../../assets/sounds/drumroll.mp3'
+import useSound from "use-sound"
+import { useSpring,animated } from "react-spring"
 
 interface props {
-    name: string 
-    avatar: number 
     id: number|null
-    roundEnded: Function
-    players: PLAYER[]
-    startNextGame: () => void
 }
 
-export const VictoryScreen = ({name, avatar, id, players, startNextGame}:props) => {
-    const [winners, setWinners] = useState<PLAYER[]>()
+
+
+export const VictoryScreen = ({id}:props) => {
+    const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const audioRef = useRef<HTMLAudioElement|null>(null)
+    const [players, setPlayers] = useStateCallback<PLAYER[]>([])
+    const [allDone, setAllDone] = useStateCallback<boolean|PLAYER[]>(false)
+    const [isBooped, setIsBooped] = useState(false)
+
+    const [applause] = useSound(s_applause)
+    const [drumroll] = useSound(s_drumroll)
+
+    const style = useSpring({
+        display: 'inline-block',
+        // backfaceVisibility: 'hidden',
+        transform: isBooped
+          ? `rotate(0deg)`
+          : `rotate(720deg)`,
+        scale: isBooped
+          ? "1"
+          : "0",
+        config: {
+            duration:2000,
+            tension: 1,
+            mass: 5,
+            friction: 100,
+        },
+        
+    });
+
 
     useEffect(() => {
-        const maxPoints = players.reduce((prev, current) => (prev.points > current.points) ? prev : current).points
-        const winners = players.filter(player => player.points==maxPoints)
-        setWinners(winners)
-    }, [players])
+        intervalRef.current = setInterval(() => {
+            server_getResults().then(res => {
+                if(res.players) setPlayers(res.players)
+                if(res.allDone){ 
+                    if(intervalRef.current) clearInterval(intervalRef.current)
+                    if(id==0){ 
+                        audioRef.current?.play()
+                    }
+                    console.log("setting players to", res.players)
+                    setPlayers(res.players)
+                    const maxPoints = (res.players as PLAYER[]).reduce((prev, current) => (prev.points > current.points) ? prev : current).points
+                    const winners = (res.players as PLAYER[]).filter(player => player.points==maxPoints)
+                    setTimeout(() => {
+                        drumroll()
+                        setAllDone(winners)
+                        setIsBooped(true)
+                        setTimeout(() => {
+                            applause()
+                        }, 2000)
+                        setTimeout(() => {
+                            setAllDone(false)
+                        }, 6000)
+                    }, 38000)
+                    
+                    
+                    
+                }
+            })
+        }, 1000)
+
+        return () => {
+            if(intervalRef.current) clearInterval(intervalRef.current)
+        }
+    }, [])
+
 
     return(
         <div>
-            <Title title="SPIEL AUS" />
-            <div className="grid grid-cols-3 mt-8">
+            <Title title="SPIEL IST JETZT GLEICH FERTIG BITTE" />
+
+            {id===0 && <audio src={process.env.PUBLIC_URL+"/narrator/victory.mp3"} loop={false} ref={audioRef} className="" />}
+            
+            {!allDone && (<><div className="grid grid-cols-8 mt-8 gap-4">
                 {players?.map((player, i) => 
-                    <div key={i} className={clsx(player.id===id && "border-white border-4")}>
-                        <PlayerAvatar name={player.name} pointsDisplay={player.points+""} />
+                    <div key={i} 
+                        // className={clsx(player.id===id && "border-white border-4")}
+                    >
+                        <PlayerAvatar avatar={player.avatar} name={player.name} pointsDisplay={allDone ? player.points+"" : ""} />
                     </div>
                 )}
             </div>
+            {/* <div className="text-white mt-8 text-[32px] text-center">Da braucht noch jemand ...</div> */}
+            
+            </>)}
 
-            <div>
-                {"WINNERS: "}
-                {winners?.map(winner => winner.name + " ")} 
-            </div>
-
-            <div className="text-end mt-16">
-                <button onClick={startNextGame} className="text-end text-[60px] textShadow text-white">Start Next Game!</button>
-            </div>
+            {allDone && 
+                <div className="fixed inset-0 h-screen z-20 w-screen bg-[rgba(0,0,0,.3)] flex items-center justify-center px-10 winnerAnimation">
+                    <animated.div className="bg-slate-800 inline-block w-full text-center py-10" style={style}>
+                        <Title title="GEWINNER" />
+                        <div className="mt-8 flex flex-row flex-wrap gap-4 justify-center">
+                        {
+                            (allDone as PLAYER[]).map((player, i) => 
+                                <PlayerAvatar name={player.name} avatar={player.avatar} pointsDisplay={player.points+""} />
+                            )
+                        }
+                        </div>
+                    </animated.div>
+                </div>}
         </div>
     )
 }

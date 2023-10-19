@@ -1,5 +1,8 @@
+import clsx from "clsx"
+
 interface Props {
     title: string
+    center?: boolean
 }
 
-export const Title = ({title}: Props) => <div className="text-[60px] textShadow text-white">{title}</div>
+export const Title = ({title, center=false}: Props) => <div className={clsx("text-[60px] textShadow text-white", center && 'text-center')}>{title}</div>

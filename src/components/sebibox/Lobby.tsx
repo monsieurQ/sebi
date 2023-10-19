@@ -1,32 +1,35 @@
 import { useEffect, useRef, useState } from "react"
 import { PlayerAvatar } from "./PlayerAvatar"
 import { Title } from "./Title"
-import { server_getPlayers, server_lobby_check, server_lobby_startGame } from "../../util/serverComm"
+import { server_lobby_check, server_lobby_startGame } from "../../util/serverComm"
 import { Player } from "../../util/types"
-import clsx from "clsx"
+import sound_lobby from '../../assets/sounds/lobby.mp3'
+import roundStart from '../../assets/sounds/roundStart.mp3'
+import useSound from "use-sound"
+import { GAME_STATE } from "../../pages/sebibox"
 
 interface Props {
     name: string
     avatar: number 
     id: number|null
-    gameStart: Function
+    startRoundIntro: Function
 }
 
 const CHECK_INTERVAL = 500
 
-export const Lobby = ({name, avatar, id, gameStart}: Props) => { 
+export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => { 
     const [players, setPlayers] = useState<Player[]|null>(null)
     const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const audioRef = useRef<HTMLAudioElement>(null)
+    const buttonRef = useRef<HTMLButtonElement>(null)
 
     useEffect(() => {
+        s_lobby();
         intervalRef.current = setInterval(() => {
             server_lobby_check().then(res => {
-                if(res.gameStarted){
-                    gameStart()
-                }else{
-                    console.log("lobbyCheck players", res);
-                    setPlayers(res)
-                }
+                console.log("lobbyCheck res", res)
+                if(res.gameState!==GAME_STATE.LOBBY) startRoundIntro()
+               if(res.players) setPlayers(res.players)
             })
         }, CHECK_INTERVAL)
 
@@ -36,22 +39,40 @@ export const Lobby = ({name, avatar, id, gameStart}: Props) => {
     }, [])
 
     const startGame = () => {
-        console.log("start game")
-        server_lobby_startGame().then(res => {
-            console.log("gameStart res", res)
-            gameStart()
-        })
+        console.log("startGame called")
+        buttonRef.current?.remove()
+        // s_lobbyData.stop()
+        audioRef.current?.pause()
+        setTimeout(() => {
+            server_lobby_startGame()
+            startRoundIntro()
+        }, data.duration??0)
     }
+
+        /*
+    SOUNDS
+    */
+    const [s_roundStart, data] = useSound(roundStart);
+    const [s_lobby, s_lobbyData] = useSound(sound_lobby);
 
     return(
         <div className="w-full">
             <Title title="PLAYERS" />
-            <div>ID: {id}</div>
-            <div className="grid grid-cols-3 mt-8">
-                {players?.map((player, i) => <div key={i} className={clsx(player.id===id && "border-white border-4")}><PlayerAvatar name={player.name} /></div>)}
+            <div className="grid grid-cols-8 mt-8 gap-4">
+                {players?.map((player, i) => 
+                    <div key={i}>
+                        <PlayerAvatar name={player.name} avatar={player.avatar} />
+                    </div>
+                )} 
             </div>
 
-            <div className="text-end mt-16"><button onClick={startGame} className="text-end text-[60px] textShadow text-white">Start Game!</button></div>
+            <audio src={sound_lobby} ref={audioRef} autoPlay loop className="invisible" />
+
+            {id==0 && 
+                <div className="text-end mt-16">
+                    <button ref={buttonRef} onClick={()=> {s_roundStart(); startGame()}} className="text-end text-[60px] textShadow text-white">Start Game!</button>
+                </div>
+            }
         </div>
     )
 }   

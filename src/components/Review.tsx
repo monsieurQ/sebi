@@ -19,7 +19,7 @@ export const Review = ({text, author, stars, center=false}: ReviewProps) => {
                 {Array(5-stars).fill(0).map(e => StarEmpty)}
             </div>)}
 
-            {author && <h1 className="text-black mt-2">{author}</h1>}
+            {author && <h1 className="text-black mt-2 font-bold">{author}</h1>}
         </div>
     )
 }

@@ -1,4 +1,6 @@
-const SERVER_URL = "http://localhost:8080"
+// const SERVER_URL = "http://localhost:8080"
+const SERVER_URL = "https://sebibox-23906.nodechef.com"
+
 
 async function sendAndReturn(uri:string, query?: string){
     let url = `${SERVER_URL}/${uri}`
@@ -9,10 +11,27 @@ async function sendAndReturn(uri:string, query?: string){
 }
 
 export async function server_sendPlayerInfoAndGetID(name:string, avatar:number){
-    const response = await fetch(`${SERVER_URL}/getPlayerId?name=${name}&avatar=${avatar}`)
-        .then(res => res.json())
-    console.log(response)
-    return response.id
+    const response = await fetch(`${SERVER_URL}/class-login?name=${name}&avatar=${avatar}`)
+    const json = await response.json() 
+    return json
+}
+
+export async function server_nextRound(){
+    const response = await fetch(`${SERVER_URL}/class-nextRound`)
+    const json = await response.json() 
+    return json
+}
+
+export async function server_skipRoundIntro(){
+    const response = await fetch(`${SERVER_URL}/class-skipRoundIntro`)
+    const json = await response.json() 
+    return json
+}
+
+export async function server_checkIfPlayerIdExists(id:number){
+    const response = await fetch(`${SERVER_URL}/class-checkId?id=${id}`)
+    const json = await response.json()
+    return json
 }
 
 export async function server_getPlayers(){
@@ -21,20 +40,51 @@ export async function server_getPlayers(){
     return json
 }
 
-export async function server_getQuestion(){
-    const response = await fetch(`${SERVER_URL}/getQuestion`)
+export async function server_getQuestion(qid:number, pid:number){
+    const response = await fetch(`${SERVER_URL}/class-getQuestion?qid=${qid}&pid=${pid}`)
     const json = await response.json()
     return json
 }
 
 export async function server_lobby_check(){
-    const response = await fetch(`${SERVER_URL}/lobbyCheck`)
+    const response = await fetch(`${SERVER_URL}/class-lobbyCheck`)
+    const json = await response.json()
+    return json
+}
+
+export async function server_getResults(){
+    const response = await fetch(`${SERVER_URL}/class-getResults`)
+    const json = await response.json()
+    return json
+}
+
+export async function server_getFinalResults(){
+    const response = await fetch(`${SERVER_URL}/class-getFinalResults`)
+    const json = await response.json()
+    return json
+}
+
+
+export async function server_state_check(){
+    const response = await fetch(`${SERVER_URL}/class-stateCheck`)
     const json = await response.json()
     return json
 }
 
 export async function server_lobby_startGame(){
-    const response = await fetch(`${SERVER_URL}/startGame`)
+    const response = await fetch(`${SERVER_URL}/class-startGame`)
+    const json = await response.json()
+    return json
+}
+
+export async function server_getIntro(){
+    const response = await fetch(`${SERVER_URL}/class-getIntro`)
+    const json = await response.json()
+    return json
+}
+
+export async function server_questionOver(){
+    const response = await fetch(`${SERVER_URL}/class-questionOver`)
     const json = await response.json()
     return json
 }
@@ -46,8 +96,8 @@ export async function server_roundsCheck(){
     return json
 }
 
-export async function server_nextRound(){
-    const response = await fetch(`${SERVER_URL}/nextRound`)
+export async function server_nextQuestion(){
+    const response = await fetch(`${SERVER_URL}/class-nextQuestion`)
     const json = await response.json()
     return json
 }
@@ -65,8 +115,8 @@ export async function server_reset(){
  * @param index - Index of chosen answer
  * @returns 
  */
-export async function server_game_answer(pid:number, index:number){
-    const response = await fetch(`${SERVER_URL}/answerQuestion?pid=${pid}&a=${index}`)
+export async function server_game_answer(pid:number, qid:number, index:number){
+    const response = await fetch(`${SERVER_URL}/class-answer?pid=${pid}&qid=${qid}&a=${index}`)
     const json = await response.json()
     return json
 }
@@ -74,6 +124,6 @@ export async function server_game_answer(pid:number, index:number){
 export async function server_question_check(){
     const response = await fetch(`${SERVER_URL}/questionCheck`)
     const json = await response.json() 
-    return json 
+    return json
 }
 

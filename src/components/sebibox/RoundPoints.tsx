@@ -71,7 +71,6 @@ export const RoundPoints = ({id, nextRound}:props) => {
         <div>
             <Title title="RUNDE IST JETZT FERTIG BITTE" />
 
-            {/* process.env.PUBLIC_URL+`/narrator/round${roundIndex}/intro.mp3` */}
             {id===0 && <audio src={process.env.PUBLIC_URL+"/sounds/drumroll.mp3"} loop={false} ref={audioRef} className="" />}
             
             {!allDone && (<><div className="grid grid-cols-8 mt-8 gap-4">

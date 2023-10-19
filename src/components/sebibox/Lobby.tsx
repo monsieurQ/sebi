@@ -5,6 +5,7 @@ import { server_lobby_check, server_lobby_startGame } from "../../util/serverCom
 import { Player } from "../../util/types"
 import sound_lobby from '../../assets/sounds/lobby.mp3'
 import roundStart from '../../assets/sounds/roundStart.mp3'
+import intro from '../../assets/intro.mp3'
 import useSound from "use-sound"
 import { GAME_STATE } from "../../pages/sebibox"
 
@@ -21,7 +22,9 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
     const [players, setPlayers] = useState<Player[]|null>(null)
     const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const audioRef = useRef<HTMLAudioElement>(null)
+    const narratorRef = useRef<HTMLAudioElement>(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
+    
 
     useEffect(() => {
         s_lobby();
@@ -44,8 +47,12 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
         // s_lobbyData.stop()
         audioRef.current?.pause()
         setTimeout(() => {
-            server_lobby_startGame()
-            startRoundIntro()
+            if(id==0) s_intro()
+            setTimeout(() => {
+                server_lobby_startGame()
+                startRoundIntro()
+            }, s_introData.duration??33000)
+
         }, data.duration??0)
     }
 
@@ -54,9 +61,11 @@ export const Lobby = ({name, avatar, id, startRoundIntro}: Props) => {
     */
     const [s_roundStart, data] = useSound(roundStart);
     const [s_lobby, s_lobbyData] = useSound(sound_lobby);
+    const [s_intro, s_introData] = useSound(intro);
 
     return(
         <div className="w-full">
+            {id===0 && <audio src={intro} loop={false} ref={narratorRef} className="" />}
             <Title title="PLAYERS" />
             <div className="grid grid-cols-8 mt-8 gap-4">
                 {players?.map((player, i) => 

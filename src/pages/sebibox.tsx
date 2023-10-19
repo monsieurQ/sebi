@@ -9,7 +9,7 @@ import { server_checkIfPlayerIdExists, server_reset } from '../util/serverComm';
 import { RoundPoints } from '../components/sebibox/RoundPoints';
 import { Round } from '../components/sebibox/Round';
 import { useNavigate } from "react-router-dom";
-import darkness from '../assets/darkness1.mp3'
+import darkness from '../assets/darkness2.mp3'
 import {ReactComponent as TurnVolumeOff} from '../assets/volume-off.svg'
 import {ReactComponent as TurnVolumeOn} from '../assets/volume-high.svg'
 
